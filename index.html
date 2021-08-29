@@ -28,11 +28,10 @@
                 <h2 class="text-center mt-2">Login</h2>
                 <form action="" class="p-2" id="login-frm">
                     <div class="form-group">
-                        <input type="text" name="username" class="form-control" placeholder="Username" required>
-                     
+                        <input type="text" name="username" class="form-control" minlength="3" placeholder="Username" required>
                     </div>
                     <div class="form-group pt-3">
-                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                        <input type="password" name="password" class="form-control" minlength="6" placeholder="Password" required>
                     </div>
                     <div class="form-group">
                         <div class="custom-control custom-checkbox p-2">
@@ -57,19 +56,19 @@
                 <h2 class="text-center mt-2">Register</h2>
                 <form action="" class="p-2" id="register-frm">
                     <div class="form-group">
-                        <input type="text" name="username" class="form-control" placeholder="Full Name" required>
+                        <input type="text" name="username" class="form-control" minlength="3" placeholder="Full Name" required>
                     </div>
                     <div class="form-group pt-3">
-                        <input type="text" name="uname" class="form-control" placeholder="Username" required>
+                        <input type="text" name="uname" class="form-control" minlength="3" placeholder="Username" required>
                     </div>
                     <div class="form-group pt-3">
                         <input type="email" name="email" class="form-control" placeholder="E-mail" required>
                     </div>
                     <div class="form-group pt-3">
-                        <input type="password" name="pass" class="form-control" placeholder="Password" required>
+                        <input type="password" name="pass" class="form-control" id="pass" minlength="6" placeholder="Password" required>
                     </div>
                     <div class="form-group pt-3">
-                        <input type="password" name="cpass" class="form-control" placeholder="Confirm Password" required>
+                        <input type="password" name="cpass" class="form-control" id="cpass" minlength="6" placeholder="Confirm Password" required>
                     </div>
                     <div class="form-group">
                         <div class="custom-control custom-checkbox p-2">
@@ -121,6 +120,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function() {
             $("#register-btn").click(function() {
@@ -139,6 +139,17 @@
                 $("#forgot-box").hide();
                 $("#login-box").show();
             });
+
+            $("#login-frm").validate();
+            $("#register-frm").validate({
+                rules: {
+                    cpass: {
+                        equalTo: "#pass"
+                    }
+                }
+            });
+
+            $("#forgot-frm").validate();
         });
     </script>
 </body>
