@@ -99,13 +99,6 @@
                     <div class="form-group">
                         <input type="email" name="femail" class="form-control" placeholder="E-mail" required>
                     </div>
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox p-2">
-                            <input type="checkbox" name="rem" class="custom-control-input" id="customCheck">
-                            <label for="customCheck" class="custom-control-label">Remember Me</label>
-                            <a href="" id="forgot-btn" class="float-right">Forgot Password?</a>
-                        </div>
-                    </div>
                     <div class="form-group pt-2">
                         <input type="submit" name="forgot" id="forgot" value="Reset" class="form-control btn btn-primary btn-block">
                     </div>
@@ -121,36 +114,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js" integrity="sha512-37T7leoNS06R80c8Ulq7cdCDU5MNQBwlYoy1TX/WUsLFC2eYNqtKlV0QjH7r8JpG/S0GUMZwebnVFLPd6SU5yg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        $(document).ready(function() {
-            $("#register-btn").click(function() {
-                $("#register-box").show();
-                $("#login-box").hide();
-            });
-            $("#login-btn").click(function() {
-                $("#register-box").hide();
-                $("#login-box").show();
-            });
-            $("#forgot-btn").click(function() {
-                $("#forgot-box").show();
-                $("#login-box").hide();
-            });
-            $("#back-btn").click(function() {
-                $("#forgot-box").hide();
-                $("#login-box").show();
-            });
-
-            $("#login-frm").validate();
-            $("#register-frm").validate({
-                rules: {
-                    cpass: {
-                        equalTo: "#pass"
-                    }
-                }
-            });
-
-            $("#forgot-frm").validate();
-        });
-    </script>
+    <script type="text/javascript" src="src/js/jquery.js"></script>
 </body>
 </html>
