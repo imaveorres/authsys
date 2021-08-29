@@ -1,3 +1,5 @@
+
+// hide & show
 $(document).ready(function() {
     $("#register-btn").click(function() {
         $("#register-box").show();
@@ -16,6 +18,7 @@ $(document).ready(function() {
         $("#login-box").show();
     });
 
+    // form validate
     $("#login-frm").validate();
     $("#register-frm").validate({
         rules: {
@@ -26,4 +29,21 @@ $(document).ready(function() {
     });
 
     $("#forgot-frm").validate();
+});
+
+// submit form asynchronous
+$(document).ready(function(e) {
+    if(document.querySelector("#register-frm").checkValidity()) {
+        e.preventDefault();
+        $.ajax({
+            url: "action.php",
+            method: "POST",
+            data: $("register-frm").serialize()+"&action=register",
+            success: function(res) {
+                $("#alert").show();
+                $("#result").html(res);
+            }
+        });
+        return true;
+    }
 });
