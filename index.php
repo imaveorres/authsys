@@ -15,7 +15,7 @@ if(isset($_SESSION['username'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     <!-- internal custom sytle -->
     <style>
-        #alert,#register-box,#forgot-box{display: none;}
+        #alert,#register-box,#forgot-box,#loader{display: none;}
     </style>
 </head>
 <body class="bg-white">
@@ -27,7 +27,9 @@ if(isset($_SESSION['username'])) {
                 </div>
             </div>
         </div>
-
+        <div class="text-center">
+            <img src="src/image/preloader.gif" alt="" class="m-2" id="loader">
+        </div>
         <!-- login form -->
         <div class="row">
             <div class="col-lg-4 offset-lg-4 bg-light rounded" id="login-box">
