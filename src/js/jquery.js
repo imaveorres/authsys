@@ -27,13 +27,21 @@ $(document).ready(function() {
             }
         }
     });
-
     $('#forgot-frm').validate();
+    $('#resetpassword-frm').validate({
+        rules: {
+            cnewpass: {
+                equalTo: '#newpass'
+            }
+        }
+    });
 
-    // submit form asynchronous
+    /* submit form asynchronous */
+    // register form - post request
     $('#register').click(function(e) {
         if(document.querySelector('#register-frm').checkValidity()) {
             e.preventDefault();
+            $('#loader').show();
             $.ajax({
                 url: 'action.php',
                 method: 'post',
@@ -41,14 +49,17 @@ $(document).ready(function() {
                 success: function(res) {
                     $('#alert').show();
                     $('#result').html(res);
+                    $('#loader').hide();
                 }
             });
             return true;
         }
     });
+    // login form - post request
     $('#login').click(function(e) {
         if(document.querySelector('#login-frm').checkValidity()) {
             e.preventDefault();
+            $('#loader').show();
             $.ajax({
                 url: 'action.php',
                 method: 'post',
@@ -59,15 +70,18 @@ $(document).ready(function() {
                     }else{
                         $('#alert').show();
                         $('#result').html(res);
+                        $('#loader').hide();
                     }
                 }
             });
             return true;
         }
     });
+    // forgot-password form - post request
     $('#forgot').click(function(e) {
         if(document.querySelector('#forgot-frm').checkValidity()) {
             e.preventDefault();
+            $('#loader').show();
             $.ajax({
                 url: 'action.php',
                 method: 'post',
@@ -75,6 +89,7 @@ $(document).ready(function() {
                 success: function(res) {
                     $('#alert').show();
                     $('#result').html(res);
+                    $('#loader').hide();
                 }
             });
             return true;
