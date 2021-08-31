@@ -110,7 +110,7 @@ function forgotPassword($conn,$femail,$result) {
     }
 }
 
-// send-mail method - forgot-password
+// send-mail method - forgot-password link
 function sendMail($generated_token_result,$femail) {
     $mail = new PHPMailer(true);
     try {
