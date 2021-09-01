@@ -42,14 +42,24 @@ $(document).ready(function() {
         if(document.querySelector('#register-frm').checkValidity()) {
             e.preventDefault();
             $('#loader').show();
+            $('#register').attr('disabled', true);
             $.ajax({
                 url: 'action.php',
                 method: 'post',
                 data: $('#register-frm').serialize()+'&action=register',
                 success: function(res) {
+                    if(res === 'Password did not match!' || res === 'This username is already exist!' || res === 'This email is already exist!' ||  res === 'Something went wrong!') {
+                        $('.alert').removeClass('alert-success');
+                        $('.alert').addClass('alert-danger');
+                    }
+                    if(res === 'Registered Successfully.') {
+                        $('.alert').removeClass('alert-danger');
+                        $('.alert').addClass('alert-success');
+                    }
                     $('#alert').show();
                     $('#result').html(res);
                     $('#loader').hide();
+                    $('#register').attr('disabled', false);
                 }
             });
             return true;
@@ -59,19 +69,32 @@ $(document).ready(function() {
     $('#login').click(function(e) {
         if(document.querySelector('#login-frm').checkValidity()) {
             e.preventDefault();
-            $('#loader').show();
+            $('#loader').show(80);
+            $('#login').attr('disabled', true);
             $.ajax({
                 url: 'action.php',
                 method: 'post',
                 data: $('#login-frm').serialize()+'&action=login',
                 success: function(res) {
                     if(res === 'Session successfully set for user.') {
+                        $('.alert').css('display', 'none');
                         window.location = 'profile.php';
-                    }else{
-                        $('#alert').show();
-                        $('#result').html(res);
-                        $('#loader').hide();
                     }
+                    if(res === 'Login failed! Check your username and password!') {
+                        $('.alert').addClass('alert-danger');
+                        $('.alert').removeClass('alert-success');
+                        $('.alert').show(80);
+                        setTimeout(function(){
+                            $('.alert').hide(200);
+                        }, 2000);
+                    }else{
+                        $('.alert').removeClass('alert-danger');
+                        $('.alert').addClass('alert-success');
+                    }
+                    $('#login').attr('disabled', false);
+                    $('#alert').show();
+                    $('#result').html(res);
+                    $('#loader').hide(200);
                 }
             });
             return true;
