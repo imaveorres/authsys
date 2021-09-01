@@ -56,9 +56,9 @@ function insertUser($conn,$name,$uname,$email,$pass,$cpass,$created_at) {
         $row = $result->fetch_array(MYSQLI_ASSOC);
         // Warning: Trying to access array offset on value of type null in line 54 & 56 (in higher version of PHP)
         if($row['username'] == $uname) {
-            echo 'This username is already exist!';
+            echo 'The username is already exist!';
         }else if($row['email'] == $email) {
-            echo 'This email is already exist!';
+            echo 'The email is already exist!';
         }else{
             $stmt_sql_insert_query = $conn->prepare("INSERT INTO users (name,username,email,pass,created_at) VALUES (?,?,?,?,?)");
             $stmt_sql_insert_query->bind_param("sssss", $name,$uname,$email,$pass,$created_at);
