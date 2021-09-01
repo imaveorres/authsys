@@ -119,7 +119,7 @@ function sendMail($generated_token_result,$femail) {
         $mail->isSMTP();
         $mail->SMTPAuth = true;
         $mail->Host = 'smtp.gmail.com';
-        $mail->Username = 'kimpng36@gmail.com';
+        $mail->Username = 'myemail@gmail.com';
         $mail->Password = 'secret';
         $mail->SMTPSecure = 'TLS';
         $mail->Port = 587;
