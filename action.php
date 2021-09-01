@@ -90,6 +90,7 @@ function rememberMe($user,$username) {
         }
     }else{
         echo 'Login failed! Check your username and password!';
+        exit();
     }
 }
 
