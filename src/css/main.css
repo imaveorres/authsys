@@ -9,6 +9,10 @@ body{
     opacity: 0.7;
     transition: ease-in;
 }
+#mssg-success-reset{
+    opacity: 0.7;
+    transition: ease-in;
+}
 .preloader img{
     opacity: 0.3;
     width: 2rem;
