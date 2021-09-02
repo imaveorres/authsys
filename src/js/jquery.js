@@ -37,39 +37,6 @@ $(document).ready(function() {
     });
 
     /* submit form asynchronous */
-    // register form - post request
-    $('#register').click(function(e) {
-        if(document.querySelector('#register-frm').checkValidity()) {
-            e.preventDefault();
-            $('#loader').show(80);
-            $('#register').attr('disabled', true);
-            $.ajax({
-                url: 'action.php',
-                method: 'post',
-                data: $('#register-frm').serialize()+'&action=register',
-                success: function(res) {
-                    if(res === 'Password did not match!' || res === 'The username is already exist!' || res === 'The email is already exist!' ||  res === 'Something went wrong!') {
-                        $('.alert').removeClass('alert-success');
-                        $('.alert').addClass('alert-danger');
-                        $('.alert').show(80);
-                        setTimeout(function(){
-                            $('.alert').hide(200);
-                        }, 2000);
-                    }else{
-                        $('.alert').css('display','none');
-                        setTimeout(function(){
-                            $('#login').trigger('click');
-                        },2000);
-                    }
-                    $('#register').attr('disabled', false);
-                    $('#alert').show();
-                    $('#result').html(res);
-                    $('#loader').hide(200);
-                }
-            });
-            return true;
-        }
-    });
     // login form - post request
     $('#login').click(function(e) {
         if(document.querySelector('#login-frm').checkValidity()) {
@@ -97,6 +64,39 @@ $(document).ready(function() {
                         $('.alert').removeClass('alert-danger');
                     }
                     $('#login').attr('disabled',false);
+                    $('#alert').show();
+                    $('#result').html(res);
+                    $('#loader').hide(200);
+                }
+            });
+            return true;
+        }
+    });
+    // register form - post request
+    $('#register').click(function(e) {
+        if(document.querySelector('#register-frm').checkValidity()) {
+            e.preventDefault();
+            $('#loader').show(80);
+            $('#register').attr('disabled', true);
+            $.ajax({
+                url: 'action.php',
+                method: 'post',
+                data: $('#register-frm').serialize()+'&action=register',
+                success: function(res) {
+                    if(res === 'Password did not match!' || res === 'The username is already exist!' || res === 'The email is already exist!' ||  res === 'Something went wrong!') {
+                        $('.alert').removeClass('alert-success');
+                        $('.alert').addClass('alert-danger');
+                        $('.alert').show(80);
+                        setTimeout(function(){
+                            $('.alert').hide(200);
+                        }, 2000);
+                    }else{
+                        $('.alert').css('display','none');
+                        setTimeout(function(){
+                            $('#login').trigger('click');
+                        },2000);
+                    }
+                    $('#register').attr('disabled', false);
                     $('#alert').show();
                     $('#result').html(res);
                     $('#loader').hide(200);
