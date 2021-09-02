@@ -86,17 +86,17 @@ $(document).ready(function() {
                         window.location = 'profile.php';
                     }
                     if(res === 'Login failed! Check your username and password!') {
-                        $('.alert').addClass('alert-danger');
                         $('.alert').removeClass('alert-success');
+                        $('.alert').addClass('alert-danger');
                         $('.alert').show(80);
                         setTimeout(function(){
                             $('.alert').hide(200);
                         }, 2000);
                     }else{
-                        $('.alert').removeClass('alert-danger');
                         $('.alert').addClass('alert-success');
+                        $('.alert').removeClass('alert-danger');
                     }
-                    $('#login').attr('disabled', false);
+                    $('#login').attr('disabled',false);
                     $('#alert').show();
                     $('#result').html(res);
                     $('#loader').hide(200);
@@ -110,11 +110,28 @@ $(document).ready(function() {
         if(document.querySelector('#forgot-frm').checkValidity()) {
             e.preventDefault();
             $('#loader').show();
+            $('#forgot').attr('disabled',true);
             $.ajax({
                 url: 'action.php',
                 method: 'post',
                 data: $('#forgot-frm').serialize()+'&action=forgot',
                 success: function(res) {
+                    if(res === 'Sorry, this email does not exist!' || res === 'Could not sent the reset password link!') {
+                        $('.alert').removeClass('alert-success');
+                        $('.alert').addClass('alert-danger');
+                        $('.alert').show(30);
+                        setTimeout(function(){
+                            $('.alert').hide(100);
+                        }, 2000);
+                    }else{
+                        $('.alert').removeClass('alert-danger');
+                        $('.alert').addClass('alert-success');
+                        $('.alert').show(30);
+                        setTimeout(function(){
+                            $('.alert').hide(100);
+                        },5000);
+                    }
+                    $('#forgot').attr('disabled',false);
                     $('#alert').show();
                     $('#result').html(res);
                     $('#loader').hide();
