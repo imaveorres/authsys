@@ -108,7 +108,7 @@ if(isset($_SESSION['username'])) {
                 <form action="" class="pb-2 p-2 p-md-2 pb-md-2" id="forgot-frm">
                     <div class="form-group mb-2">
                         <small class="text-muted">
-                            To reset your password, enter your email address and we will send you a reset password link.
+                            To reset your password, enter your email address and we will send you a password reset link.
                         </small>
                     </div>
                     <div class="form-group mb-1">
