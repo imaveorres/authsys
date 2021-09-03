@@ -53,6 +53,7 @@ function registerUser($conn) {
             echo 'Registered Successfully.';
         }
     }
+    exit();
 }
 
 // login method
@@ -60,52 +61,50 @@ function loginUser($conn) {
     $username = $_POST['username'];
     $password = sha1($_POST['password']);
     $stmt_sql_login_query = $conn->prepare("SELECT * FROM users WHERE username=? AND pass=?");
-    $stmt_sql_login_query->bind_param("ss", $username,$password);
+    $stmt_sql_login_query->bind_param('ss', $username,$password);
     $stmt_sql_login_query->execute();
     $user = $stmt_sql_login_query->fetch();
+    $stmt_sql_login_query->close();
     if($user != NULL){
-        echo 'Login success!';
-        $stmt_sql_login_query->close();
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = $password;
+        userLogs($username,$password,$conn);
+        rememberMe($username,$password,$conn);
     }else{
         echo 'Login failed! Check your username and password!';
         exit();
     }
-    userLogs($username,$password,$conn);
-    rememberMe($user,$username);
 }
 
 // user-logs method
 function userLogs($username,$password,$conn) {
-    $stmt_sql_select_query = $conn->prepare("SELECT ID,username FROM WHERE username=? AND pass=?");
+    $stmt_sql_select_query = $conn->prepare("SELECT * FROM users WHERE username=? AND pass=?");
     $stmt_sql_select_query->bind_param('ss', $username,$password);
     $stmt_sql_select_query->execute();
     $result = $stmt_sql_select_query->get_result();
     $row = $result->fetch_array(MYSQLI_ASSOC);
-
-    $user_username = $row['username'];
+    
     $user_id = $row['ID'];
-
-    $stmt_sql_insert_query = $conn->prepare("INSERT INTO logs (username,users_id) VALUES (?,?)");
+    $user_username = $row['username'];
+    $stmt_sql_insert_query = $conn->prepare("INSERT INTO logs (username,user_id) VALUES (?,?)");
     $stmt_sql_insert_query->bind_param('si', $user_username,$user_id);
     $stmt_sql_insert_query->execute();
+
+    $stmt_sql_insert_query->close();
     $stmt_sql_select_query->close();
 }
 
 // remember-me method 
-function rememberMe($user,$username) {
-    if($user != NULL){
-        $_SESSION['username'] = $username;
-        echo 'Session successfully set for user.';
-        if(!empty($_POST['remember-me'])){
-            setcookie("username", $_POST['username'],time()+(10*365*24*60*60));
-            setcookie("password", $_POST['password'],time()+(10*365*24*60*60));
-        }else{
-            if(isset($_COOKIE['username'])){
-                setcookie('username','');
-            }
-            if(isset($_COOKIE['password'])){
-                setcookie('password','');
-            }
+function rememberMe($username,$password,$row,$conn) {
+    if(!empty($_POST['remember-me'])){
+        setcookie("username",$username,time()+(10*365*24*60*60));
+        setcookie("password",$password,time()+(10*365*24*60*60));
+    }else{
+        if(isset($_COOKIE['username'])){
+            setcookie('username','');
+        }
+        if(isset($_COOKIE['password'])){
+            setcookie('password','');
         }
     }
 }
