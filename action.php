@@ -9,16 +9,6 @@ require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-// POST register
-if(isset($_POST['action']) && $_POST['action'] == 'register') {
-    $name = checkInput($_POST['name']);
-    $uname = checkInput($_POST['uname']);
-    $email = checkInput($_POST['email']);
-    $pass = checkInput(sha1($_POST['pass']));
-    $cpass = checkInput(sha1($_POST['cpass']));
-    $created_at = date('Y-m-d');
-    insertUser($conn,$name,$uname,$email,$pass,$cpass,$created_at);
-}
 // POST login
 if(isset($_POST['action']) && $_POST['action'] == 'login') {
     session_start();
@@ -30,6 +20,16 @@ if(isset($_POST['action']) && $_POST['action'] == 'login') {
     $user = $stmt_sql_login_query->fetch();
     $stmt_sql_login_query->close();
     rememberMe($user,$username);
+}
+// POST register
+if(isset($_POST['action']) && $_POST['action'] == 'register') {
+    $name = checkInput($_POST['name']);
+    $uname = checkInput($_POST['uname']);
+    $email = checkInput($_POST['email']);
+    $pass = checkInput(sha1($_POST['pass']));
+    $cpass = checkInput(sha1($_POST['cpass']));
+    $created_at = date('Y-m-d');
+    insertUser($conn,$name,$uname,$email,$pass,$cpass,$created_at);
 }
 // POST forgot
 if(isset($_POST['action']) && $_POST['action'] == 'forgot') {
@@ -62,12 +62,9 @@ function insertUser($conn,$name,$uname,$email,$pass,$cpass,$created_at) {
         }else{
             $stmt_sql_insert_query = $conn->prepare("INSERT INTO users (name,username,email,pass,created_at) VALUES (?,?,?,?,?)");
             $stmt_sql_insert_query->bind_param("sssss", $name,$uname,$email,$pass,$created_at);
-            if($stmt_sql_insert_query->execute()) {
-                echo 'Registered Successfully.';
-            }else{
-                echo 'Something went wrong!';
-            }
+            $stmt_sql_insert_query->execute();
             $stmt_sql_select_query->close();
+            echo 'Registered Successfully.';
         }
     }
 }
