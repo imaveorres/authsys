@@ -12,56 +12,42 @@ require 'PHPMailer/src/SMTP.php';
 // POST login
 if(isset($_POST['action']) && $_POST['action'] == 'login') {
     session_start();
-    $username = $_POST['username'];
-    $password = sha1($_POST['password']);
-    $stmt_sql_login_query = $conn->prepare("SELECT * FROM users WHERE username=? AND pass=?");
-    $stmt_sql_login_query->bind_param("ss", $username,$password);
-    $stmt_sql_login_query->execute();
-    $user = $stmt_sql_login_query->fetch();
-    $stmt_sql_login_query->close();
-    rememberMe($user,$username);
+    loginUser($conn);
 }
 // POST register
 if(isset($_POST['action']) && $_POST['action'] == 'register') {
+    registerUser($conn);
+}
+// POST forgot
+if(isset($_POST['action']) && $_POST['action'] == 'forgot') {
+    session_start();
+    forgotPassword($conn);
+}
+
+// register method
+function registerUser($conn) {
     $name = checkInput($_POST['name']);
     $uname = checkInput($_POST['uname']);
     $email = checkInput($_POST['email']);
     $pass = checkInput(sha1($_POST['pass']));
     $cpass = checkInput(sha1($_POST['cpass']));
     $created_at = date('Y-m-d');
-    insertUser($conn,$name,$uname,$email,$pass,$cpass,$created_at);
-}
-// POST forgot
-if(isset($_POST['action']) && $_POST['action'] == 'forgot') {
-    session_start();
-    $femail = $_POST['femail'];
-    $stmt_sql_select_query = $conn->prepare("SELECT * FROM users WHERE email=?");
-    $stmt_sql_select_query->bind_param('s', $femail);
-    $stmt_sql_select_query->execute();
-    $result = $stmt_sql_select_query->fetch();
-    $stmt_sql_select_query->close();
-    forgotPassword($conn,$femail,$result);
-}
-
-// register method
-function insertUser($conn,$name,$uname,$email,$pass,$cpass,$created_at) {
-    if($pass != $cpass) {
+    if($pass != $cpass){
         echo 'Password did not match!';
         exit();
     }else{
         $stmt_sql_select_query = $conn->prepare("SELECT username, email FROM users WHERE username=? OR email=?");
-        $stmt_sql_select_query->bind_param("ss", $uname,$email);
+        $stmt_sql_select_query->bind_param('ss', $uname,$email);
         $stmt_sql_select_query->execute();
         $result = $stmt_sql_select_query->get_result();
         $row = $result->fetch_array(MYSQLI_ASSOC);
-        // Warning: Trying to access array offset on value of type null in line 54 & 56 (in higher version of PHP)
-        if($row['username'] == $uname) {
+        if($row['username'] == $uname){
             echo 'The username is already exist!';
-        }else if($row['email'] == $email) {
+        }else if($row['email'] == $email){
             echo 'The email is already exist!';
         }else{
             $stmt_sql_insert_query = $conn->prepare("INSERT INTO users (name,username,email,pass,created_at) VALUES (?,?,?,?,?)");
-            $stmt_sql_insert_query->bind_param("sssss", $name,$uname,$email,$pass,$created_at);
+            $stmt_sql_insert_query->bind_param('sssss', $name,$uname,$email,$pass,$created_at);
             $stmt_sql_insert_query->execute();
             $stmt_sql_select_query->close();
             echo 'Registered Successfully.';
@@ -69,30 +55,69 @@ function insertUser($conn,$name,$uname,$email,$pass,$cpass,$created_at) {
     }
 }
 
-// remember-me method 
-function rememberMe($user,$username) {
-    if($user != NULL) {
-        $_SESSION['username'] = $username;
-        echo 'Session successfully set for user.';
-        if(!empty($_POST['remember-me'])) {
-            setcookie("username", $_POST['username'],time()+(10*365*24*60*60));
-            setcookie("password", $_POST['password'],time()+(10*365*24*60*60));
-        }else{
-            if(isset($_COOKIE['username'])) {
-                setcookie('username','');
-            }
-            if(isset($_COOKIE['password'])) {
-                setcookie('password','');
-            }
-        }
+// login method
+function loginUser($conn) {
+    $username = $_POST['username'];
+    $password = sha1($_POST['password']);
+    $stmt_sql_login_query = $conn->prepare("SELECT * FROM users WHERE username=? AND pass=?");
+    $stmt_sql_login_query->bind_param("ss", $username,$password);
+    $stmt_sql_login_query->execute();
+    $user = $stmt_sql_login_query->fetch();
+    if($user != NULL){
+        echo 'Login success!';
+        $stmt_sql_login_query->close();
     }else{
         echo 'Login failed! Check your username and password!';
         exit();
     }
+    userLogs($username,$password,$conn);
+    rememberMe($user,$username);
+}
+
+// user-logs method
+function userLogs($username,$password,$conn) {
+    $stmt_sql_select_query = $conn->prepare("SELECT ID,username FROM WHERE username=? AND pass=?");
+    $stmt_sql_select_query->bind_param('ss', $username,$password);
+    $stmt_sql_select_query->execute();
+    $result = $stmt_sql_select_query->get_result();
+    $row = $result->fetch_array(MYSQLI_ASSOC);
+
+    $user_username = $row['username'];
+    $user_id = $row['ID'];
+
+    $stmt_sql_insert_query = $conn->prepare("INSERT INTO logs (username,users_id) VALUES (?,?)");
+    $stmt_sql_insert_query->bind_param('si', $user_username,$user_id);
+    $stmt_sql_insert_query->execute();
+    $stmt_sql_select_query->close();
+}
+
+// remember-me method 
+function rememberMe($user,$username) {
+    if($user != NULL){
+        $_SESSION['username'] = $username;
+        echo 'Session successfully set for user.';
+        if(!empty($_POST['remember-me'])){
+            setcookie("username", $_POST['username'],time()+(10*365*24*60*60));
+            setcookie("password", $_POST['password'],time()+(10*365*24*60*60));
+        }else{
+            if(isset($_COOKIE['username'])){
+                setcookie('username','');
+            }
+            if(isset($_COOKIE['password'])){
+                setcookie('password','');
+            }
+        }
+    }
 }
 
 // forgot-password method
-function forgotPassword($conn,$femail,$result) {
+function forgotPassword($conn) {
+    $femail = $_POST['femail'];
+    $stmt_sql_select_query = $conn->prepare("SELECT * FROM users WHERE email=?");
+    $stmt_sql_select_query->bind_param('s', $femail);
+    $stmt_sql_select_query->execute();
+    $result = $stmt_sql_select_query->fetch();
+    $stmt_sql_select_query->close();
     if($result >= 1){
         $token = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $token = str_shuffle($token);
@@ -102,22 +127,22 @@ function forgotPassword($conn,$femail,$result) {
         $stmt_sql_update_query->bind_param('ss', $generated_token_result,$femail);
         $stmt_sql_update_query->execute();
         $stmt_sql_update_query->close();
-        sendMail($generated_token_result,$femail);
+        sendEmail($generated_token_result,$femail);
     }else{
         echo 'Sorry, this email does not exist!';
     }
 }
 
-// send-mail method - forgot-password link
-function sendMail($generated_token_result,$femail) {
+// send-email method - forgot-password link
+function sendEmail($generated_token_result,$femail) {
     $mail = new PHPMailer(true);
-    try {
+    try{
         //$mail->SMTPDebug = SMTP::DEBUG_SERVER; 
         $mail->isSMTP();
         $mail->SMTPAuth = true;
         $mail->Host = 'smtp.gmail.com';
-        $mail->Username = 'kimpng36@gmail.com';
-        $mail->Password = 'kimZ_123';
+        $mail->Username = 'sample@gmail.com';
+        $mail->Password = 'secret';
         $mail->SMTPSecure = 'TLS';
         $mail->Port = 587;
 
