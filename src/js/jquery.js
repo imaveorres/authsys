@@ -48,10 +48,6 @@ $(document).ready(function() {
                 method: 'post',
                 data: $('#login-frm').serialize()+'&action=login',
                 success: function(res) {
-                    if(res === 'Session successfully set for user.') {
-                        $('.alert').css('display','none');
-                        window.location = 'profile.php';
-                    }
                     if(res === 'Login failed! Check your username and password!') {
                         $('.alert').removeClass('alert-success');
                         $('.alert').addClass('alert-danger');
@@ -60,8 +56,8 @@ $(document).ready(function() {
                             $('.alert').hide(200);
                         }, 2000);
                     }else{
-                        $('.alert').addClass('alert-success');
-                        $('.alert').removeClass('alert-danger');
+                        $('.alert').css('display','none');
+                        window.location = 'profile.php';
                     }
                     $('#login').attr('disabled',false);
                     $('#alert').show();
@@ -77,13 +73,14 @@ $(document).ready(function() {
         if(document.querySelector('#register-frm').checkValidity()) {
             e.preventDefault();
             $('#loader').show(80);
+            
             $('#register').attr('disabled', true);
             $.ajax({
                 url: 'action.php',
                 method: 'post',
                 data: $('#register-frm').serialize()+'&action=register',
                 success: function(res) {
-                    if(res === 'Password did not match!' || res === 'The username is already exist!' || res === 'The email is already exist!' ||  res === 'Something went wrong!') {
+                    if(res === 'Password did not match!' || res === 'The username is already exist!' || res === 'The email is already exist!') {
                         $('.alert').removeClass('alert-success');
                         $('.alert').addClass('alert-danger');
                         $('.alert').show(80);
@@ -92,9 +89,9 @@ $(document).ready(function() {
                         }, 2000);
                     }else{
                         $('.alert').css('display','none');
-                        setTimeout(function(){
-                            $('#login').trigger('click');
-                        },2000);
+                        setTimeout(function() {
+                            $('#login-btn').trigger('click');
+                        }, 1000);
                     }
                     $('#register').attr('disabled', false);
                     $('#alert').show();
