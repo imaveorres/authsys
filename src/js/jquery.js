@@ -59,6 +59,8 @@ $(document).ready(function() {
                         $('.alert').css('display','none');
                         window.location = 'profile.php';
                     }
+                        
+                    console.log('im here');
                     $('#login').attr('disabled',false);
                     $('#alert').show();
                     $('#result').html(res);
