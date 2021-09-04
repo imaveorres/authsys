@@ -1,7 +1,7 @@
 <?php
 $dbhost = 'localhost';
 $dbuser = 'root';
-$dbpass = '62699';
+$dbpass = 'secret';
 $dbname = 'login_system_php';
 
 $conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
