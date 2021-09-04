@@ -1,7 +1,6 @@
-
-// hide & show
 $(document).ready(function() {
-    $('#register-btn').click(function() {
+    // hide & show
+    /*$('#register-btn').click(function() {
         $('#register-box').show();
         $('#login-box').hide();
     });
@@ -34,7 +33,7 @@ $(document).ready(function() {
                 equalTo: '#newpass'
             }
         }
-    });
+    });*/
 
     /* submit form asynchronous */
     // login form - post request
@@ -44,7 +43,7 @@ $(document).ready(function() {
             $('#loader').show(80);
             $('#login').attr('disabled', true);
             $.ajax({
-                url: 'action.php',
+                url: './modules/action.php',
                 method: 'post',
                 data: $('#login-frm').serialize()+'&action=login',
                 success: function(res) {
@@ -75,10 +74,9 @@ $(document).ready(function() {
         if(document.querySelector('#register-frm').checkValidity()) {
             e.preventDefault();
             $('#loader').show(80);
-            
             $('#register').attr('disabled', true);
             $.ajax({
-                url: 'action.php',
+                url: './modules/action.php',
                 method: 'post',
                 data: $('#register-frm').serialize()+'&action=register',
                 success: function(res) {
@@ -92,7 +90,8 @@ $(document).ready(function() {
                     }else{
                         $('.alert').css('display','none');
                         setTimeout(function() {
-                            $('#login-btn').trigger('click');
+                            // $('#login-btn').trigger('click');
+                            window.location = 'index.php';
                         }, 1000);
                     }
                     $('#register').attr('disabled', false);
@@ -111,7 +110,7 @@ $(document).ready(function() {
             $('#loader').show();
             $('#forgot').attr('disabled',true);
             $.ajax({
-                url: 'action.php',
+                url: './modules/action.php',
                 method: 'post',
                 data: $('#forgot-frm').serialize()+'&action=forgot',
                 success: function(res) {

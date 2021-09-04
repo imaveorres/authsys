@@ -1,4 +1,4 @@
-<?php require 'reset_password_conf.php'; ?>
+<?php require 'config/reset_password_conf.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

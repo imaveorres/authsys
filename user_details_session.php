@@ -1,5 +1,5 @@
 <?php
-require 'config.php';
+require 'config/config.php';
 session_start();
 $user = $_SESSION['username'];
 $stmt_sql_select_query = $conn->prepare("SELECT * FROM users WHERE username=?");

@@ -2,7 +2,7 @@
 body{
     font-family: 'Open Sans', sans-serif;
 }
-#alert,#register-box,#forgot-box,#loader{
+#alert,#loader{
     display: none;
 }
 .alert{
