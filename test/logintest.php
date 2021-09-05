@@ -1,5 +1,5 @@
 <?php 
-require 'config.php';
+require '../config/config.php';
 // POST login
 if(isset($_POST['login'])) {
     session_start();
@@ -19,7 +19,7 @@ function loginUser($conn) {
         $_SESSION['username'] = $username;
         $_SESSION['password'] = $password;
         userLogs($username,$password,$conn);
-        rememberMe($username,$password,$conn);
+        rememberMe($username,$password);
     }else{
         echo 'Login failed! Check your username and password!';
         exit();
@@ -45,7 +45,7 @@ function userLogs($username,$password,$conn) {
 }
 
 // remember-me method 
-function rememberMe($username,$password,$conn) {
+function rememberMe($username,$password) {
     if(!empty($_POST['remember-me'])){
         setcookie("username",$username,time()+(10*365*24*60*60));
         setcookie("password",$password,time()+(10*365*24*60*60));

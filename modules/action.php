@@ -53,7 +53,6 @@ function registerUser($conn) {
             echo 'Registered Successfully.';
         }
     }
-    exit();
 }
 
 // login method
@@ -140,8 +139,8 @@ function sendEmail($generated_token_result,$femail) {
         $mail->isSMTP();
         $mail->SMTPAuth = true;
         $mail->Host = 'smtp.gmail.com';
-        $mail->Username = 'sample@gmail.com';
-        $mail->Password = 'secret';
+        $mail->Username = 'your@gmail.com';
+        $mail->Password = 'yourpass';
         $mail->SMTPSecure = 'TLS';
         $mail->Port = 587;
 
@@ -154,7 +153,7 @@ function sendEmail($generated_token_result,$femail) {
         $mail->send();
         echo "We have successfully sent the reset password link to <small>{$femail}</small>, please check your email.";
     }catch(Exception $e){
-        //echo "Reset password link could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        // echo "Reset password link could not be sent. Mailer Error: {$mail->ErrorInfo}";
         echo 'Could not sent the reset password link!';
     }
 }

@@ -15,7 +15,7 @@ $(document).ready(function() {
     $('#back-btn').click(function() {
         $('#forgot-box').hide();
         $('#login-box').show();
-    });
+    });*/
 
     // form validate
     $('#login-frm').validate();
@@ -33,7 +33,7 @@ $(document).ready(function() {
                 equalTo: '#newpass'
             }
         }
-    });*/
+    });
 
     /* submit form asynchronous */
     // login form - post request
@@ -58,8 +58,6 @@ $(document).ready(function() {
                         $('.alert').css('display','none');
                         window.location = 'profile.php';
                     }
-                        
-                    console.log('im here');
                     $('#login').attr('disabled',false);
                     $('#alert').show();
                     $('#result').html(res);

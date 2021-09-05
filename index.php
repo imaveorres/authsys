@@ -4,4 +4,4 @@ if(isset($_SESSION['username'])) {
     header('location:profile.php');
 }
 
-include 'login.php'; 
+require 'login.php';

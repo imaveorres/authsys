@@ -1,4 +1,4 @@
-<?php require 'config/reset_password_conf.php'; ?>
+<?php require './config/reset_password_conf.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,11 +22,11 @@
                 <h5 class="text-center display-6 text-dark p-2 rounded">Reset your password here!</h3>
                 <form action="" id="resetpassword-frm" method="post">
                     <div class="form-group mb-2">
-                        <label for="password" class="form-label">Enter New Password</label>
+                        <!-- <label for="password" class="form-label">Enter New Password</label> -->
                         <input type="password" name="newpass" id="newpass" class="form-control" minlength="6" placeholder="New password" required>
                     </div>
                     <div class="form-group mb-2">
-                        <label for="password" class="form-label">Confirm New Password</label>
+                        <!-- <label for="password" class="form-label">Confirm New Password</label> -->
                         <input type="password" name="cnewpass" id="cnewpass" class="form-control" minlength="6" placeholder="Confirm new password" required>
                     </div>
                     <div class="form-group">

@@ -1,5 +1,10 @@
 <?php
-require 'logintest.php'; ?>
+require 'logintest.php'; 
+session_start();
+if(isset($_SESSION['username'])) {
+    header('location: ../profile.php');
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
