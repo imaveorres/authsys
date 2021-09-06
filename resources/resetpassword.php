@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php require '../templates/headmeta.php'; ?>
+    <?php require 'templates/headmeta.php'; ?>
 </head>
 <body>
     <div class="container">
@@ -31,6 +31,6 @@
             </div>
         </div>
     </div>
-    <?php require '../templates/scriptscdn.php' ?>
+    <?php require 'templates/scriptscdn.php' ?>
 </body>
 </html>

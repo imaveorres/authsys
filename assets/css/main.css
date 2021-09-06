@@ -9,6 +9,9 @@ body{
     opacity: 0.7;
     transition: ease-in;
 }
+#logout{
+    cursor: pointer;
+}
 #mssg-success-reset{
     opacity: 0.7;
     transition: ease-in;

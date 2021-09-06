@@ -16,6 +16,19 @@ $(document).ready(function() {
         $('#forgot-box').hide();
         $('#login-box').show();
     });*/
+    // check current url for title page
+    let curr_url = window.location.href;
+    if(curr_url === 'https://localhost/login-system-php/index.php') {
+        document.title = 'Login';
+    }else if(curr_url === 'https://localhost/login-system-php/register.php'){
+        document.title = 'Register';
+    }else if(curr_url === 'https://localhost/login-system-php/forgot.php'){
+        document.title = 'Forgot';
+    }else if(curr_url === 'https://localhost/login-system-php/profile.php'){
+        document.title = 'Profile';
+    }else{
+        document.title = 'Web Login System';
+    }
 
     // form validate
     $('#login-frm').validate();
@@ -38,7 +51,7 @@ $(document).ready(function() {
     /* submit form asynchronous */
     // login form - post request
     $('#login').click(function(e) {
-        if(document.querySelector('#login-frm').checkValidity()) {
+        if(document.querySelector('#login-frm').checkValidity()){
             e.preventDefault();
             $('#loader').show(80);
             $('#login').attr('disabled', true);
@@ -67,9 +80,23 @@ $(document).ready(function() {
             return true;
         }
     });
+    // logout method
+    $('#logout').click(function(e) {
+        e.preventDefault();
+        $('body,html').css('opacity', '0.4');
+        $.ajax({   
+            url: './modules/logout.php',
+            method: 'get',
+            success: function(res){
+                if(res === 'logout'){
+                    window.location = 'index.php';
+                }
+            }
+        });
+    });
     // register form - post request
     $('#register').click(function(e) {
-        if(document.querySelector('#register-frm').checkValidity()) {
+        if(document.querySelector('#register-frm').checkValidity()){
             e.preventDefault();
             $('#loader').show(80);
             $('#register').attr('disabled', true);
@@ -103,7 +130,7 @@ $(document).ready(function() {
     });
     // forgot-password form - post request
     $('#forgot').click(function(e) {
-        if(document.querySelector('#forgot-frm').checkValidity()) {
+        if(document.querySelector('#forgot-frm').checkValidity()){
             e.preventDefault();
             $('#loader').show();
             $('#forgot').attr('disabled',true);

@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="text-center preloader">
-            <img src="src/image/preloader.gif" alt="" class="m-2" id="loader">
+            <img src="assets/image/preloader.gif" alt="" class="m-2" id="loader">
         </div>
         <!-- login form -->
         <div class="row">

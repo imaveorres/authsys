@@ -139,8 +139,8 @@ function sendEmail($generated_token_result,$femail) {
         $mail->isSMTP();
         $mail->SMTPAuth = true;
         $mail->Host = 'smtp.gmail.com';
-        $mail->Username = 'your@gmail.com';
-        $mail->Password = 'yourpass';
+        $mail->Username = 'kimpng36@gmail.com';
+        $mail->Password = 'kimZ_123';
         $mail->SMTPSecure = 'TLS';
         $mail->Port = 587;
 
@@ -149,7 +149,8 @@ function sendEmail($generated_token_result,$femail) {
 
         $mail->isHTML(true);
         $mail->Subject = 'Your request reset password.';
-        $mail->Body = "<h4>Follow the link below to reset your password.<br><a href='http://localhost/login-system-php/reset_password.php?email=$femail&token=$generated_token_result'>http://localhost/login-system-php/reset_password.php?email={$femail}&token={$generated_token_result}</a></h4>";
+        $mail->Body = "<h4>Follow the link below to reset your password.<br><a href='http://localhost/login-system-php/resources/resetpassword.php?email=$femail&token=$generated_token_result'>http://localhost/login-system-php/resetpassword.php?email={$femail}&token={$generated_token_result}</a></h4>        
+        ";
         $mail->send();
         echo "We have successfully sent the reset password link to <small>{$femail}</small>, please check your email.";
     }catch(Exception $e){

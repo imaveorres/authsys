@@ -17,7 +17,7 @@ if(isset($_GET['email']) && isset($_GET['token'])) {
                 $stmt_sql_update_query = $conn->prepare("UPDATE users SET pass=?, token='' WHERE email=?");
                 $stmt_sql_update_query->bind_param('ss', $newpass,$email);
                 $stmt_sql_update_query->execute();
-                $msg = "Password changed successfully!<br><a class='text-decoration-none' href='index.php'>Login here.</a>";
+                $msg = "Password changed successfully!<br><a class='text-decoration-none' href='../index.php'>Login here.</a>";
             }else{
                 echo 'Password did not match!';
                 exit();
@@ -25,11 +25,11 @@ if(isset($_GET['email']) && isset($_GET['token'])) {
             $stmt_sql_update_query->close();
         }
     }else{
-        header('location:index.php');
+        header('location: ../index.php');
         exit();
     }
 }else{
-    header('location:index.php');
+    header('location: ../index.php');
     exit();
 }
 ?>
